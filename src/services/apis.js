@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = 'http://localhost:4000/api';
 
 // AUTH ENDPOINTS
 // =========================
@@ -15,6 +15,7 @@ console.log("BASE_URL is:", BASE_URL);
 export const adminEndpoints = {
   GET_ALL_SHOPKEEPERS: `${BASE_URL}/admin/shopkeepers`,
   GET_ALL_SHOPS: `${BASE_URL}/admin/shops`,
+    GET_MY_SHOPS: `${BASE_URL}/admin/shops`,
   DELETE_SHOP: `${BASE_URL}/admin/shopDelete`,
   TOGGLE_SHOPKEEPER_STATUS: `${BASE_URL}/admin/toggle-shopkeeper`,
   GET_BLOCKED_SHOPKEEPERS: `${BASE_URL}/admin/shopkeepers/blocked`,
@@ -64,6 +65,7 @@ export const shopEndpoints = {
     CREATE_SHOP: `${BASE_URL}/shops/create`,
     DELETE_SHOP: `${BASE_URL}/shops/delete`,
     GET_ALL_SHOPS: `${BASE_URL}/shops/all`,
+    GET_MY_SHOPS: `${BASE_URL}/shops/my-shop`,
   };
 
   // TRANSACTION ROUTES

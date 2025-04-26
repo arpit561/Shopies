@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import CustomerForm from "./shopkeeper/CustomerForm";
 import CustomerList from "./shopkeeper/CustomerList";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllShops, createShop } from "../services/operations/shopAPI";
+import { getMyShops, createShop } from "../services/operations/shopAPI";
 import { toast } from "react-hot-toast";
-import { setMyShop } from "../slices/shopSlice";
+import { setMyShop } from "../slices/shopSlice"
+
 import { useNavigate } from "react-router-dom";  // import useNavigate from react-router-dom
 
 const ShopkeeperDashboard = () => {
     // const [shops, setShops] = useState([]);
-  const shops = useSelector((state) => state.shop.shops);
+  const shops = useSelector((state) => state.shop.myShop);
   const [selectedShopId, setSelectedShopId] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [shopName, setShopName] = useState("");
@@ -23,7 +24,7 @@ const ShopkeeperDashboard = () => {
   }, []);
 
   const fetchShops = async () => {
-    const result = dispatch(getAllShops());
+    const result = dispatch(getMyShops());
     if (result && Array.isArray(result)) {
       setMyShop(result);
       if (result.length === 1) setSelectedShopId(result[0]._id);

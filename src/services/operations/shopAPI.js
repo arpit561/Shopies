@@ -1,11 +1,11 @@
-import { setAllShops } from "../../slices/shopSlice";
+import { setAllShops, setMyShop } from "../../slices/shopSlice";
 import { apiConnector } from "../apiconnector";
 import { shopEndpoints } from "../apis";
 import { toast } from "react-hot-toast"
 
 const { CREATE_SHOP,
     DELETE_SHOP,
-    GET_ALL_SHOPS}= shopEndpoints;
+    GET_ALL_SHOPS, GET_MY_SHOPS}= shopEndpoints;
 
 
 export const createShop = ({ shopName, address, token }) => {
@@ -100,3 +100,32 @@ export const updateShop = ({ shopId, shopName, address, token }) => {
       }
     };
   };
+export const getMyShops = () => {
+  return async (dispatch) => {
+    try {
+      // Get user ID from localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+
+
+      if (!user._id) {
+        toast.error("User not logged in");
+        return [];
+      }
+
+      // Make the API request to fetch shops for the particular shopkeeper
+      const response = await apiConnector("GET", `${GET_MY_SHOPS}?ownerId=${user._id}`);
+
+      if (response.data.success) {
+        dispatch(setMyShop(response.data.shops));  // Use the appropriate action to set the shops
+        return response.data.shops;
+      } else {
+        toast.error(response.data.message);
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching shops:", error);
+      toast.error("Failed to fetch shops");
+      return [];
+    }
+  };
+};

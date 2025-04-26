@@ -96,4 +96,32 @@ exports.showAllShops = async (req, res) => {
     });
   }
 };
+exports.showMyShop = async (req, res) => {
+  try {
+    const { ownerId } = req.query;
+    if (!ownerId) {
+      return res.status(400).json({
+        success: false,
+        message: "Owner ID is required",
+      });
+    }
+    const shops = await Shop.find({ owner: ownerId }).populate("owner", "name email").populate("customers", "name contactInfo");
+    if (shops.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No shops found for this owner",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      shops,
+    });
+  } catch (error) {
+    console.error("Error fetching shops:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 
